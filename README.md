@@ -5,7 +5,8 @@ For INTEL Processors. Display current energy consumption in watts using Intel Ru
 
 ---
 
-#### Script `bintelpwr` refreshes every 1 second unless specified with launch option `-t`.
+#### Script `bintelpwr` refreshes every 1 second unless specified with launch option `-t`.<br>
+This script requires root privileges to run. `sudo bintelpwr`<br>
 
 Examples:<br>
 `bintelpwr` : Run script with default values.<br>
