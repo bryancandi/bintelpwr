@@ -20,6 +20,19 @@ Options:
 </pre>
 
 ---
+
+### Installation
+
+Normal install will install scripts to `/usr/bin` and requires root.<br>
+Local install will install scripts to `~/bin`.<br>
+
+Run `make install` to install `bintelpwr`.<br>
+Run `make uninstall` to uninstall `bintelpwr`.<br>
+
+Run `make install-local` to install `bintelpwr` locally for current user.<br>
+Run `make uninstall-local` to uninstall `bintelpwr` locally for current user.<br>
+
+---
 ### Screenshots
 
 ![Alt text](/screenshots/bintelpwr.png?raw=true "bintelpwr")
