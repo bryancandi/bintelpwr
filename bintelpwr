@@ -6,7 +6,7 @@
 # Copyright (C) 2024 by Bryan Candiliere
 #
 
-version="bintelpwr 0.0.2" # 09-14-2024
+version="bintelpwr 0.0.3" # 09-30-2024
 num="1" # 1 second refresh interval
 
 show_help() {
@@ -99,6 +99,7 @@ f_cpu_type() {
 powercap_devices=$(ls /sys/class/powercap/ | grep intel-rapl:)
 separator_line="-----------------------------------"
 sleep_message="Getting initial power measurements... (sleeping $num seconds)"
+refresh_message="Updating every $num second(s)."
 exit_message="Press Ctrl-C to exit."
 
 while true; do
@@ -133,14 +134,14 @@ while true; do
         current_power=$(cat "/sys/class/powercap/$device/energy_uj")
 
         # Calculate power difference and convert from microjoules (uJ) to watts
-        power_diff=$(echo "scale=2; ($current_power - $initial_power) / $num_mil" | bc)
+        power_diff=$(echo "scale=2; ($current_power - $initial_power) / $num_mil" | bc | awk '{printf "%.2f\n", $0}')
 
         # Get device ID number and remove text for sorting
         device_num=$(echo "$device" | sed 's/[^0-9:]//g; s/://')
 
         # Display current CPU power usage and power difference
         #echo "$device_num $name: $power_diff watts" | column -t
-        printf "%-5s %-15s %s\n" "$device_num" "$name:" "$power_diff watts"
+        printf "%-5s %-15s %5s watts\n" "$device_num" "$name:" "$power_diff"
     ) &
 
     done)
@@ -155,7 +156,7 @@ while true; do
     sorted_powercap_device_lines=$(echo "$powercap_device_lines" | sort -k 1,1)
 
     # Combine lines for final formatted output
-    final_output="$header_cpu_line\n$separator_line\n\n$sorted_powercap_device_lines\n\n$separator_line\n$exit_message"
+    final_output="$header_cpu_line\n$separator_line\n\n$sorted_powercap_device_lines\n\n$separator_line\n$refresh_message\n$exit_message"
 
     echo -e "$final_output"
 
